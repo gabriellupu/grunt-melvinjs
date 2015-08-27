@@ -1,7 +1,7 @@
 {
-  "name": "grunt-melvin",
+  "name": "grunt-melvinjs",
   "version": "0.0.2",
-  "repository": "https://github.com/lupugabriel1/grunt-melvin.git",
+  "repository": "https://github.com/lupugabriel1/grunt-melvinjs.git",
   "author": "Gabriel Lupu <lupugabriel1@gmail.com>",
   "license": "MIT",
   "dependencies" : {
