@@ -1,27 +1,45 @@
 {
   "name": "grunt-melvinjs",
   "version": "0.0.2",
-  "repository": "https://github.com/lupugabriel1/grunt-melvinjs.git",
-  "author": "Gabriel Lupu <lupugabriel1@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lupugabriel1/grunt-melvinjs.git"
+  },
+  "author": {
+    "name": "Gabriel Lupu",
+    "email": "lupugabriel1@gmail.com"
+  },
   "license": "MIT",
-  "dependencies" : {
-    "grunt"                     : "0.4.x",
-    "grunt-contrib-concat"      : "0.1.x",
-    "grunt-contrib-copy"        : "0.4.x",
-    "grunt-contrib-less"        : "0.5.x",
-    "grunt-contrib-jst"         : "0.5.x",
-    "grunt-contrib-cssmin"      : "0.10.x",
-    "grunt-contrib-clean"       : "0.6.x",
-    "grunt-contrib-requirejs"   : "0.4.x",
-    "grunt-contrib-jade"        : "0.12.x",
-    "grunt-html-build"          : "0.3.x",
-    "grunt-cache-breaker"       : "1.0.x",
-    "time-grunt"                : "0.4.x",
-    "load-grunt-config"         : "0.13.x",
-    "node-static"               : "0.7.x",
-    "jade"                      : "1.5.x"
+  "dependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib-concat": "0.1.x",
+    "grunt-contrib-copy": "0.4.x",
+    "grunt-contrib-less": "0.5.x",
+    "grunt-contrib-jst": "0.5.x",
+    "grunt-contrib-cssmin": "0.10.x",
+    "grunt-contrib-clean": "0.6.x",
+    "grunt-contrib-requirejs": "0.4.x",
+    "grunt-contrib-jade": "0.12.x",
+    "grunt-html-build": "0.3.x",
+    "grunt-cache-breaker": "1.0.x",
+    "time-grunt": "0.4.x",
+    "load-grunt-config": "0.13.x",
+    "node-static": "0.7.x",
+    "jade": "1.5.x"
   },
   "scripts": {
     "start": "npm install"
-  }
+  },
+  "gitHead": "01ef850c8a1a2291a13840181a7920060630155b",
+  "readme": "# Melvin.js Grunt Task Dependency #\n### Melvin.js is a complete SPA Framework based on Backbone.js ###",
+  "readmeFilename": "README.md",
+  "description": "",
+  "bugs": {
+    "url": "https://github.com/lupugabriel1/grunt-melvinjs/issues"
+  },
+  "homepage": "https://github.com/lupugabriel1/grunt-melvinjs#readme",
+  "_id": "grunt-melvinjs@0.0.2",
+  "_shasum": "7600047e017d5fa20a60f9bd2a45da1dd90356f1",
+  "_from": "git+https://github.com/lupugabriel1/grunt-melvinjs.git",
+  "_resolved": "git+https://github.com/lupugabriel1/grunt-melvinjs.git#01ef850c8a1a2291a13840181a7920060630155b"
 }

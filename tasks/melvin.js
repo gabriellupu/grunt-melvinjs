@@ -19,7 +19,8 @@ module.exports = function(grunt) {
                         var matches = moduleTemplateRegex.exec(filename);
                         return '#' + matches[1] + '-' + matches[2];
                     },
-                    client: true
+                    client: true,
+                    jst: true
                 },
                 files: {
                     'tmp/templates.js': ['app/modules/**/templates/*.jade', '!_*.jade']
