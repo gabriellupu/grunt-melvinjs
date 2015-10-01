@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = function(grunt) {
     require('time-grunt')(grunt);
 
@@ -5,30 +7,44 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-jst');
 
     grunt.initConfig({
         clean: {
-            compiled: ['compiled']
+            before: ['compiled'],
+            after: ['temp']
         },
         jade: {
-            templates: {
-                options: {
-                    pretty: false,
-                    processName: function( filename ) {
-                        var moduleTemplateRegex = /modules\/([\w\d-_]+)\/templates\/([\w\d-_]+)/g;
-                        var matches = moduleTemplateRegex.exec(filename);
-                        return '#' + matches[1] + '-' + matches[2];
-                    },
-                    client: true,
-                    jst: true
-                },
-                files: {
-                    'tmp/templates.js': ['app/modules/**/templates/*.jade', '!_*.jade']
-                }
+            all: {
+                files: [{
+                    expand: true,
+                    cwd: 'app/modules/',
+                    src: ['**/*.jade', '!**/_*.jade'],
+                    dest: 'temp/html',
+                    ext: '.html'
+                }]
             },
             index: {
                 files: {
                     'index.html': 'app/index.jade'
+                }
+            }
+        },
+        jst: {
+            compile_jade: {
+                options: {
+                    processName: function( filename ) {
+                        var filePath = path.normalize( filename );
+                        var template = path.basename(filePath, '.html');
+                        var module = filePath.split(path.sep)[2];
+
+                        return '#' + module + '-' + template;
+                    }
+                },
+                files: {
+                    'compiled/templates.js': [
+                        'temp/html/**/*.html'
+                    ]
                 }
             }
         },
@@ -50,6 +66,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('melvin', 'Compiles Melvin Project', function() {
-        grunt.task.run('clean', 'jade', 'less', 'copy');
+        grunt.task.run('clean:before', 'jade', 'jst', 'less', 'copy', 'clean:after');
     });
 };
