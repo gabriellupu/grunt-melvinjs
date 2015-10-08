@@ -1,6 +1,6 @@
 {
   "name": "grunt-melvinjs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lupugabriel1/grunt-melvinjs.git"
@@ -37,9 +37,5 @@
   "bugs": {
     "url": "https://github.com/lupugabriel1/grunt-melvinjs/issues"
   },
-  "homepage": "https://github.com/lupugabriel1/grunt-melvinjs#readme",
-  "_id": "grunt-melvinjs@0.0.2",
-  "_shasum": "7600047e017d5fa20a60f9bd2a45da1dd90356f1",
-  "_from": "git+https://github.com/lupugabriel1/grunt-melvinjs.git",
-  "_resolved": "git+https://github.com/lupugabriel1/grunt-melvinjs.git#01ef850c8a1a2291a13840181a7920060630155b"
+  "homepage": "https://github.com/lupugabriel1/grunt-melvinjs#readme"
 }
