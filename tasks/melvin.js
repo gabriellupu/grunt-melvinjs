@@ -3,11 +3,11 @@ var path = require('path');
 module.exports = function(grunt) {
     require('time-grunt')(grunt);
 
-    require('../node_modules/grunt-contrib-clean/tasks/clean')(grunt);
-    require('../node_modules/grunt-contrib-jade/tasks/jade')(grunt);
-    require('../node_modules/grunt-contrib-copy/tasks/copy')(grunt);
-    require('../node_modules/grunt-contrib-less/tasks/less')(grunt);
-    require('../node_modules/grunt-contrib-jst/tasks/jst')(grunt);
+    require('grunt-contrib-clean/tasks/clean')(grunt);
+    require('grunt-contrib-jade/tasks/jade')(grunt);
+    require('grunt-contrib-copy/tasks/copy')(grunt);
+    require('grunt-contrib-less/tasks/less')(grunt);
+    require('grunt-contrib-jst/tasks/jst')(grunt);
 
     grunt.initConfig({
         clean: {
