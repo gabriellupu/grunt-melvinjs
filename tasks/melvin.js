@@ -1,6 +1,7 @@
 var path = require('path');
 
 module.exports = function(grunt) {
+    grunt.loadNpmTasks('grunt-extend-config');
     require('time-grunt')(grunt);
 
     require('grunt-contrib-clean/tasks/clean')(grunt);
@@ -26,7 +27,7 @@ module.exports = function(grunt) {
             },
             index: {
                 files: {
-                    'index.html': 'app/index.jade'
+                    'www/index.html': 'app/index.jade'
                 }
             }
         },
@@ -42,7 +43,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'compiled/templates.js': [
+                    'www/templates.js': [
                         'temp/html/**/*.html'
                     ]
                 }
@@ -51,21 +52,17 @@ module.exports = function(grunt) {
         less: {
             app: {
                 files: {
-                    'tmp/styles.css': 'app/styles/main.less'
+                    'www/styles.css': 'app/styles/main.less'
                 }
-            }
-        },
-        copy: {
-            require: {
-                expand: true,
-                flatten: true,
-                src: ['bower_components/requirejs/require.js', 'bower_components/melvinjs/require_config.js'],
-                dest: './tmp'
             }
         }
     });
 
-    grunt.registerTask('melvin', 'Compiles Melvin Project', function() {
+    grunt.registerTask('melvinjs:dev', 'Compiles Melvin.js Project', function() {
         grunt.task.run('clean:before', 'jade', 'jst', 'less', 'copy', 'clean:after');
+    });
+
+    grunt.registerTask('melvinjs:prod', 'Optimizes Melvin.js App, making it ready for production', function() {
+        grunt.task.run('melvinjs:dev');
     });
 };
