@@ -5,10 +5,12 @@ module.exports = function(grunt) {
     require('time-grunt')(grunt);
 
     require('grunt-contrib-clean/tasks/clean')(grunt);
+    require('grunt-contrib-concat/tasks/concat')(grunt);
     require('grunt-contrib-jade/tasks/jade')(grunt);
     require('grunt-contrib-copy/tasks/copy')(grunt);
     require('grunt-contrib-less/tasks/less')(grunt);
     require('grunt-contrib-jst/tasks/jst')(grunt);
+    require('grunt-contrib-requirejs/tasks/requirejs')(grunt);
 
     grunt.initConfig({
         clean: {
@@ -53,7 +55,27 @@ module.exports = function(grunt) {
             app: {
                 files: {
                     'www/styles.css': 'app/styles/main.less'
+                },
+                strictImport: true
+            }
+        },
+        requirejs: {
+            prod: {
+                options: {
+                    mainConfigFile: 'www/app/require-config.js',
+                    baseUrl: 'www/app',
+                    findNestedDependencies: true,
+                    include: 'main.js',
+                    wrap: true,
+                    out: 'deploy/app.js',
+                    optimize: 'none'
                 }
+            }
+        },
+        concat: {
+            prod: {
+                src: ['www/bower_components/requirejs/require.js', 'www/app/require-config.js', 'www/templates.js', 'deploy/app.js'],
+                dest: 'deploy/app.js'
             }
         }
     });
@@ -63,6 +85,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('melvinjs:prod', 'Optimizes Melvin.js App, making it ready for production', function() {
-        grunt.task.run('melvinjs:dev');
+        grunt.task.run('melvinjs:dev', 'requirejs:prod', 'concat:prod');
     });
 };
