@@ -62,7 +62,7 @@ module.exports = function(grunt) {
         requirejs: {
             prod: {
                 options: {
-                    mainConfigFile: 'www/app/require-config.js',
+                    mainConfigFile: 'www/require-config.js',
                     baseUrl: 'www/app',
                     findNestedDependencies: true,
                     include: 'main.js',
@@ -74,8 +74,27 @@ module.exports = function(grunt) {
         },
         concat: {
             prod: {
-                src: ['www/bower_components/requirejs/require.js', 'www/app/require-config.js', 'www/templates.js', 'deploy/app.js'],
+                src: ['node_modules/requirejs/require.js', 'www/app/require-config.js', 'www/templates.js', 'deploy/app.js'],
                 dest: 'deploy/app.js'
+            }
+        },
+        copy: {
+            www_dev: {
+                src: ['app/**', '!app/**/*.less', '!app/**/*.jade'],
+                expand: true,
+                dest: 'www'
+            },
+            requirejs: {
+                src: ['require.js'],
+                expand: true,
+                cwd: 'node_modules/requirejs/',
+                dest: 'www'
+            },
+            requirejs_config: {
+                src: ['require-config.js'],
+                cwd: 'node_modules/melvinjs/',
+                expand: true,
+                dest: 'www'
             }
         }
     });
