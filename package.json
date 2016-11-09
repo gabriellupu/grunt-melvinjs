@@ -1,9 +1,9 @@
 {
   "name": "grunt-melvinjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lupugabriel1/grunt-melvinjs.git"
+    "url": "git+https://github.com/gabriellupu/grunt-melvinjs.git"
   },
   "author": {
     "name": "Gabriel Lupu",
@@ -20,13 +20,14 @@
     "grunt-contrib-jade": "0.12.x",
     "grunt-contrib-jst": "0.5.x",
     "grunt-contrib-less": "1.3.x",
-    "grunt-contrib-requirejs": "0.4.x",
+    "grunt-contrib-requirejs": "1.0.x",
     "grunt-extend-config": "^0.9.3",
     "grunt-html-build": "0.3.x",
     "jade": "1.5.x",
     "load-grunt-config": "0.13.x",
     "node-static": "0.7.x",
-    "time-grunt": "0.4.x"
+    "time-grunt": "0.4.x",
+    "deep-extend": "^0.4.1"
   },
   "scripts": {
     "start": "npm install"

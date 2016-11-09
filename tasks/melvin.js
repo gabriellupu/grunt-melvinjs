@@ -1,4 +1,5 @@
 var path = require('path');
+var deepExtend = require('deep-extend');
 
 module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-extend-config');
@@ -15,7 +16,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         clean: {
             before: ['compiled'],
-            after: ['temp']
+            after: ['temp'],
+            prod: ['deploy']
         },
         jade: {
             all: {
@@ -30,6 +32,11 @@ module.exports = function(grunt) {
             index: {
                 files: {
                     'www/index.html': 'app/index.jade'
+                }
+            },
+            index_prod: {
+                files: {
+                    'deploy/index.html': 'app/index_prod.jade'
                 }
             }
         },
@@ -62,10 +69,10 @@ module.exports = function(grunt) {
         requirejs: {
             prod: {
                 options: {
-                    mainConfigFile: 'www/require-config.js',
                     baseUrl: 'www/app',
+                    mainConfigFile: 'www/require-config.js',
                     findNestedDependencies: true,
-                    include: 'main.js',
+                    include: ['main'],
                     wrap: true,
                     out: 'deploy/app.js',
                     optimize: 'none'
@@ -74,7 +81,7 @@ module.exports = function(grunt) {
         },
         concat: {
             prod: {
-                src: ['node_modules/requirejs/require.js', 'www/app/require-config.js', 'www/templates.js', 'deploy/app.js'],
+                src: ['node_modules/requirejs/require.js', 'deploy/app.js', 'www/templates.js'],
                 dest: 'deploy/app.js'
             }
         },
@@ -95,15 +102,33 @@ module.exports = function(grunt) {
                 cwd: 'node_modules/melvinjs/',
                 expand: true,
                 dest: 'www'
+            },
+            prod: {
+                src: ['index.html', 'styles.css'],
+                cwd: 'www/',
+                expand: true,
+                dest: 'deploy'
             }
         }
     });
 
+    grunt.registerTask('updateRequireConfig', 'Extend melvin\'s requirejs config with custom one', function() {
+        //var done = this.async();
+
+        var customConfigJson = grunt.file.readJSON('./app/config.json');
+        var melvinConfig = grunt.file.read('./www/require-config.js');
+        var melvinConfigJson = JSON.parse(melvinConfig.match(/require\.config\(({[\r\n\s\S]*})\);/)[1]);
+
+        var extendedConfigContent = 'require.config(' + JSON.stringify(deepExtend(melvinConfigJson, customConfigJson)) + ');';
+
+        grunt.file.write('./www/require-config.js', extendedConfigContent);
+    });
+
     grunt.registerTask('melvinjs:dev', 'Compiles Melvin.js Project', function() {
-        grunt.task.run('clean:before', 'jade', 'jst', 'less', 'copy', 'clean:after');
+        grunt.task.run('clean:before', 'jade:all', 'jade:index', 'jst', 'less', 'copy', 'clean:after');
     });
 
     grunt.registerTask('melvinjs:prod', 'Optimizes Melvin.js App, making it ready for production', function() {
-        grunt.task.run('melvinjs:dev', 'requirejs:prod', 'concat:prod');
+        grunt.task.run('clean:prod', 'melvinjs:dev', 'updateRequireConfig', 'requirejs:prod', 'concat:prod', 'copy:prod', 'jade:index_prod');
     });
 };
