@@ -32,6 +32,7 @@
     "grunt-contrib-cssmin": "1.0.x",
     "grunt-contrib-watch": "1.0.x"
   },
+  "main": "tasks/melvin.js",
   "scripts": {
     "start": "npm install"
   },
