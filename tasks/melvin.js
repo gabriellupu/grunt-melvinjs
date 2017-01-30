@@ -12,12 +12,14 @@ module.exports = function(grunt) {
     require('grunt-contrib-less/tasks/less')(grunt);
     require('grunt-contrib-jst/tasks/jst')(grunt);
     require('grunt-contrib-requirejs/tasks/requirejs')(grunt);
+    require('grunt-contrib-uglify/tasks/uglify')(grunt);
+    require('grunt-contrib-cssmin/tasks/cssmin')(grunt);
+    require('grunt-contrib-watch/tasks/watch')(grunt);
 
     grunt.initConfig({
         clean: {
             before: ['compiled'],
-            after: ['temp'],
-            prod: ['deploy']
+            after: ['temp']
         },
         jade: {
             all: {
@@ -36,7 +38,7 @@ module.exports = function(grunt) {
             },
             index_prod: {
                 files: {
-                    'deploy/index.html': 'app/index_prod.jade'
+                    'www/index.html': 'app/index_prod.jade'
                 }
             }
         },
@@ -63,9 +65,13 @@ module.exports = function(grunt) {
                 files: {
                     'www/styles.css': 'app/styles/main.less'
                 },
-                strictImport: true
+                strictImport: true,
+                compress: true
             }
         },
+
+        // RequireJS optimizer full example:
+        // https://github.com/requirejs/r.js/blob/master/build/example.build.js
         requirejs: {
             prod: {
                 options: {
@@ -74,20 +80,46 @@ module.exports = function(grunt) {
                     findNestedDependencies: true,
                     include: ['main'],
                     wrap: true,
-                    out: 'deploy/app.js',
+                    out: 'www/app.js',
+                    // Optimization manually done via uglify task
                     optimize: 'none'
                 }
             }
         },
-        concat: {
+
+        // CSS Minify
+        // https://github.com/gruntjs/grunt-contrib-cssmin
+        cssmin: {
             prod: {
-                src: ['node_modules/requirejs/require.js', 'deploy/app.js', 'www/templates.js'],
-                dest: 'deploy/app.js'
+                files: {
+                    'www/styles.css': 'www/styles.css'
+                }
             }
         },
+
+        // Uglify 2.0 - makes javascript small and efficient
+        // https://github.com/gruntjs/grunt-contrib-uglify
+        uglify: {
+            prod: {
+                files: {
+                    'www/app.js': 'www/app.js'
+                }
+            }
+        },
+
+        concat: {
+            prod: {
+                src: ['node_modules/requirejs/require.js', 'www/app.js', 'www/templates.js'],
+                dest: 'www/app.js'
+            }
+        },
+
+        // Copy files task
         copy: {
+            // User static resorces, application files except
+            // jade templates and less files
             www_dev: {
-                src: ['app/**', '!app/**/*.less', '!app/**/*.jade'],
+                src: ['res/**', 'app/**', '!app/**/*.less', '!app/**/*.jade'],
                 expand: true,
                 dest: 'www'
             },
@@ -102,12 +134,19 @@ module.exports = function(grunt) {
                 cwd: 'node_modules/melvinjs/',
                 expand: true,
                 dest: 'www'
+            }
+        },
+        watch: {
+            options: {
+                spawn: true
             },
-            prod: {
-                src: ['index.html', 'styles.css'],
-                cwd: 'www/',
-                expand: true,
-                dest: 'deploy'
+            styles: {
+                files: 'app/**/*.less',
+                tasks: ['less']
+            },
+            templates: {
+                files: 'app/**/*.jade',
+                tasks: ['jade:all', 'jade:index', 'jst']
             }
         }
     });
@@ -129,6 +168,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('melvinjs:prod', 'Optimizes Melvin.js App, making it ready for production', function() {
-        grunt.task.run('clean:prod', 'melvinjs:dev', 'updateRequireConfig', 'requirejs:prod', 'concat:prod', 'copy:prod', 'jade:index_prod');
+        grunt.task.run('melvinjs:dev', 'updateRequireConfig', 'requirejs:prod', 'concat:prod', 'jade:index_prod', 'uglify:prod', 'cssmin:prod');
     });
 };
