@@ -10,5 +10,8 @@ jobs:
           command: npm install
     test:
       - run:
+          name: CoPilot OSS
+          command: bash <(curl -s https://copilot.blackducksoftware.com/ci/circle/scripts/upload)
+      - run:
           name: test
           command: npm test
