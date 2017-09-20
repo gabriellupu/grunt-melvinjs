@@ -36,6 +36,7 @@ jobs:
       # run tests!
       - run: yarn test
 
-  test:
-    steps:
-      - bash <(curl -s https://copilot.blackducksoftware.com/ci/circle/scripts/upload)
+      # run
+      - run:
+          name: CoPilot OSS
+          command: bash <(curl -s https://copilot.blackducksoftware.com/ci/circle/scripts/upload)
