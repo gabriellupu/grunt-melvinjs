@@ -35,3 +35,7 @@ jobs:
 
       # run tests!
       - run: yarn test
+
+  test:
+    steps:
+      - bash <(curl -s https://copilot.blackducksoftware.com/ci/circle/scripts/upload)
