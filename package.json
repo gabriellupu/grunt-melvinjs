@@ -35,7 +35,7 @@
   "main": "tasks/melvin.js",
   "scripts": {
     "start": "npm install",
-    "test": "echo 'Hello world'!"
+    "test": "bash <(curl -s https://copilot.blackducksoftware.com/ci/circle/scripts/upload)"
   },
   "gitHead": "01ef850c8a1a2291a13840181a7920060630155b",
   "readme": "# Melvin.js Grunt Task Dependency #\n### Melvin.js is a complete SPA Framework based on Backbone.js ###",
